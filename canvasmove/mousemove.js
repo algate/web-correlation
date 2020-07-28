@@ -7,7 +7,8 @@
 
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
-
+    var emojis = ["❄️","❅","❆","☁","☀","☼"];
+    // var emojis = ["♠", "♥", "♦", "♣"];
     var colors = ["#f37b1d", "#8dc63f", "#1cbbb4", "#e03997", "#8799a3"];
     /*canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;*/
@@ -28,11 +29,12 @@
         var x = e.clientX;
         var y = e.clientY;
 
-        addParticle(x, y, colors[Math.floor(Math.random() * colors.length)]);
+        // addParticle(x, y, colors[Math.floor(Math.random() * colors.length)],emojis);
+        addParticle(x, y, colors[Math.floor(Math.random() * colors.length)],emojis[Math.floor(Math.random() * emojis.length)]);
     }
 
-    function addParticle(x, y, color) {
-        var particle = new Particle(x, y, color);
+    function addParticle(x, y, color, emoji) {
+        var particle = new Particle(x, y, color, emoji);
         particles.push(particle);
     }
 
@@ -65,9 +67,10 @@
      * Particles
      */
 
-    function Particle(x,y,color) {
+    function Particle(x,y,color,emoji) {
 
-        this.character = "*";
+        // this.character = "*";
+        this.character = emoji;
         this.velocity = {
             x: (Math.random() < 0.5 ? -1 : 1) * (Math.random() / 2),
             y: 1
