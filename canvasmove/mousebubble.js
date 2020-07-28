@@ -7,7 +7,8 @@
 
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
-    var emojis = ["❄️"];
+    var emojis = ["°"];
+    // var emojis = ["❄️","❅","❆","☁","☀","☼"];
     // var emojis = ["♠", "♥", "♦", "♣"];
     var colors = ["#f37b1d", "#8dc63f", "#1cbbb4", "#e03997", "#8799a3"];
     /*canvas.width = window.innerWidth;
@@ -49,7 +50,7 @@
         }
         // Remove outCanvas particles
         for (var i = particles.length - 1; i >= 0; i--) {
-            if (particles[i].position.y > canvas.height || particles[i].alpha <= 0 || particles[i].fontSize <= 0) {
+            if (particles[i].position.y < 0 || particles[i].alpha <= 0) {
                 particles.splice(i, 1);
             }
         }
@@ -71,19 +72,27 @@
 
         // this.character = "*";
         this.character = emoji;
-        this.velocity = {
+        /*this.velocity = {
             x: (Math.random() < 0.5 ? -1 : 1) * (Math.random() / 2),
             y: 1
+        };*/
+        this.velocity = {
+            x:  (Math.random() < 0.5 ? -1 : 1) * (Math.random() / 10),
+            y: (-.4 + (Math.random() * -1))
         };
         this.color = color;
         this.position = { x: x, y: y };
-        this.fontSize = 24;
+        this.fontSize = 12;
         this.alpha = 1;
 
         this.update = function() {
             this.position.x += this.velocity.x;
             this.position.y += this.velocity.y;
-            this.fontSize -= 0.1;
+
+            this.velocity.x += (Math.random() < 0.5 ? -1 : 1) * 2 / 75;
+            this.velocity.y -= Math.random() / 600;
+
+            this.fontSize += 0.1;
             // 设置水平对齐方式
             /* textAlign    设置或返回文本内容的当前对齐方式
              * start :    默认。文本在指定的位置开始。
@@ -104,7 +113,7 @@
             ctx.fillStyle = this.color;
             ctx.globalAlpha = this.alpha - 0.1;
             ctx.font = this.fontSize + 'px Arial, Helvetica, sans-serif';
-            if(this.fontSize > 0 && this.alpha > 0) {
+            if(this.position.y > 0 && this.alpha > 0) {
                 ctx.fillText(this.character, this.position.x, this.position.y);
             }
         }
